@@ -38,7 +38,7 @@ class NodeServer:
         await runner.setup()
         site = web.TCPSite(runner, "0.0.0.0", PORT)
         await site.start()
-        print(f"[{self.node_id}] HTTP server listening on {PORT}")
+        print(f"[{self.node_id}] HTTP server listening on {PORT}", flush=True)
 
         while True:
             await asyncio.sleep(3600)
