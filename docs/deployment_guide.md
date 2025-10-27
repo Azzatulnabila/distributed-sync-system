@@ -4,7 +4,7 @@
 - Akun Docker Hub (untuk Play-with-Docker login)
 - Repo GitHub: https://github.com/Azzatulnabila/distributed-sync-system
 
-## Langkah cepat (Play-with-Docker)
+## Langkah-langkah pada (Play-with-Docker)
 1. Buka https://labs.play-with-docker.com/ → Login
 2. Start new session → Add new instance (minimal 1)
 3. Di terminal instance:
