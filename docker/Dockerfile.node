@@ -1,0 +1,17 @@
+# docker/Dockerfile.node
+FROM python:3.9-slim
+
+WORKDIR /app
+ENV PYTHONUNBUFFERED=1
+
+COPY ./src /app/src
+COPY requirements.txt /app/requirements.txt
+
+RUN apt-get update && apt-get install -y gcc libssl-dev && \
+    pip install --upgrade pip && \
+    pip install -r /app/requirements.txt && \
+    apt-get remove -y gcc && apt-get autoremove -y && rm -rf /var/lib/apt/lists/*
+
+EXPOSE 5000
+
+CMD ["python", "src/nodes/base_node.py"]
