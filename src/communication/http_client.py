@@ -1,4 +1,3 @@
-# src/communication/http_client.py
 import aiohttp
 import asyncio
 import json

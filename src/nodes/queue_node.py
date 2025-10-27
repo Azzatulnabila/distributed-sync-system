@@ -1,24 +1,20 @@
-# src/nodes/queue_node.py
 import aioredis
 import asyncio
-from src.utils.config import REDIS_HOST, REDIS_PORT, QUEUE_NAMESPACE, NODES
+from src.utils.config import REDIS_HOST, REDIS_PORT, QUEUE_NAMESPACE
+from typing import Optional
 
-class DistributedQueue:
-    def __init__(self, redis):
-        self.redis = redis
-        self.nodes = NODES
+class PersistentQueue:
+    def __init__(self, redis_pool):
+        self.redis = redis_pool
 
-    async def produce(self, topic, message):
-        # use consistent hashing by topic+message to pick node list name
+    async def push(self, topic: str, message: str):
         key = f"{QUEUE_NAMESPACE}:{topic}"
         await self.redis.rpush(key, message)
         return {"ok": True}
 
-    async def consume_from(self, topic, timeout=1):
+    async def pop(self, topic: str, timeout: int = 2):
         key = f"{QUEUE_NAMESPACE}:{topic}"
-        # BLPOP will pop and return; this gives at-least-once semantics if consumer fails after pop
         res = await self.redis.blpop(key, timeout=timeout)
         if res:
-            # returns (key, message)
             return {"ok": True, "message": res[1].decode()}
         return {"ok": False, "message": None}

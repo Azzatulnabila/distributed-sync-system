@@ -1,0 +1,31 @@
+openapi: "3.0.0"
+info:
+  title: Distributed Sync System API
+  version: "0.1"
+paths:
+  /raft/heartbeat:
+    post:
+      summary: Receive heartbeat
+      requestBody:
+        required: true
+      responses:
+        "200":
+          description: ok
+  /lock/acquire:
+    post:
+      summary: Acquire a lock
+  /lock/release:
+    post:
+      summary: Release a lock
+  /queue/produce:
+    post:
+      summary: Produce message to queue
+  /queue/consume:
+    post:
+      summary: Consume message from queue
+  /cache/write:
+    post:
+      summary: Write to cache and broadcast invalidation
+  /cache/read:
+    post:
+      summary: Read from cache

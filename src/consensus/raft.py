@@ -1,4 +1,3 @@
-# src/consensus/raft_like.py
 import asyncio
 import time
 import random
