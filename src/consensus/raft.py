@@ -4,7 +4,7 @@ import random
 from src.utils.config import NODES, NODE_ID, PORT, ELECTION_TIMEOUT, HEARTBEAT_INTERVAL
 from src.communication.http_client import post
 
-class RaftLike:
+class RaftNode:
     def __init__(self, on_become_leader=None):
         self.node_id = NODE_ID
         self.peers = [n for n in NODES if n != NODE_ID]
