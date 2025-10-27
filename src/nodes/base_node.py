@@ -41,7 +41,7 @@ class NodeServer:
         print(f"[{self.node_id}] HTTP server listening on {PORT}")
 
         while True:
-        await asyncio.sleep(3600)
+            await asyncio.sleep(3600)
 
     async def subscriber(self):
         res = await self.pubsub.subscribe("cache_invalidation")
