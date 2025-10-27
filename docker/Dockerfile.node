@@ -1,14 +1,12 @@
-# Gunakan Python slim
 FROM python:3.9-slim
 
-# Set working directory
 WORKDIR /app
 
 # Copy source code dan requirements
 COPY ./src /app/src
 COPY requirements.txt /app/requirements.txt
 
-# Set environment variable 
+# Set environment variable untuk import src
 ENV PYTHONPATH=/app
 
 # Install dependencies
@@ -16,5 +14,8 @@ RUN apt-get update && apt-get install -y gcc libssl-dev \
     && pip install --upgrade pip \
     && pip install -r /app/requirements.txt
 
-# Default command 
-CMD ["python", "-m", "src.nodes.base_node"]
+# Expose port default node
+EXPOSE 5000
+
+# Default command → jalankan src/app.py supaya node tetap Up
+CMD ["python", "-m", "src.app"]
