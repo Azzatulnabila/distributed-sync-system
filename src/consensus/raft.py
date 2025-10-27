@@ -18,7 +18,8 @@ class RaftNode:
     async def start(self):
         asyncio.create_task(self._election_loop())
         asyncio.create_task(self._heartbeat_checker())
-         async def _heartbeat_checker(self):
+
+    async def _heartbeat_checker(self):
         while True:
             now = time.time()
             if self.state != "leader" and now - self.last_heartbeat > ELECTION_TIMEOUT:
