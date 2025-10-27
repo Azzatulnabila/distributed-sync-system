@@ -35,7 +35,7 @@ async def run_scenario():
 
         print("\n[📦] Testing Queue Produce/Consume throughput...")
         for node in BASE_URLS:
-            await session.post(f"{node}/queue/produce", {"topic": "bench", "message": "ping"})
+            await session.post(f"{node}/queue/produce", json{"topic": "bench", "message": "ping"})
             consume_time = await measure_latency(session, f"{node}/queue/consume", {"topic": "bench"})
             if consume_time:
                 latencies.append(consume_time)
