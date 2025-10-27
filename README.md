@@ -3,6 +3,10 @@
 Proyek tugas Mata Kuliah: Sistem Paralel dan Terdistribusi  
 Judul: Implementasi Distributed Synchronization System
 
+-- Seluruh proses implementasi dijalankan menggunakan Play with Docker (https://labs.play-with-docker.com/) karena kendala teknis pada sistem operasi yang menyebabkan Docker Desktop tidak dapat berjalan stabil di perangkat saya. Penggunaan resource ini telah dikonfirmasi dan disetujui oleh dosen pengampu pada praktikum sebelumnya --
+
+Demo Youtube: [https://www.youtube.com/watch?v=mav1rph77vs]
+
 ## Ringkasan
 Sistem simulasi terdistribusi dengan:
 - Distributed Lock Manager (Raft-like + deadlock detector)
