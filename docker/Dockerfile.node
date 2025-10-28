@@ -4,28 +4,19 @@ WORKDIR /app
 
 # Copy source code dan requirements
 COPY ./src /app/src
-COPY ./src/demo.py /app/demo.py
 COPY requirements.txt /app/requirements.txt
 
-# Set environment variable untuk import src
+# Set PYTHONPATH agar import src bisa
 ENV PYTHONPATH=/app
 
 # Install dependencies
 RUN apt-get update && apt-get install -y gcc libssl-dev \
     && pip install --upgrade pip \
-    && pip install -r /app/requirements.txt
-
-# Install requests
-RUN pip install --no-cache-dir requests
-
-RUN pip install fastapi uvicorn
+    && pip install -r /app/requirements.txt \
+    && pip install fastapi uvicorn
 
 # Expose port default node
 EXPOSE 5000
 
-# Default command → jalankan src/app.py supaya node tetap Up
-CMD ["python", "-m", "src.app"]
-
-
-
-
+# Jalankan FastAPI dengan uvicorn supaya container tetap Up
+CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "5000"]
