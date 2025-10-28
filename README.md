@@ -6,6 +6,7 @@ Judul: Implementasi Distributed Synchronization System
 -- Seluruh proses implementasi dijalankan menggunakan Play with Docker (https://labs.play-with-docker.com/) karena kendala teknis pada sistem operasi yang menyebabkan Docker Desktop tidak dapat berjalan stabil di perangkat saya. Penggunaan resource ini telah dikonfirmasi dan disetujui oleh dosen pengampu pada praktikum sebelumnya --
 
 Demo Youtube: [https://youtu.be/yWJn_nM-V5w]
+Link Laporan: [https://drive.google.com/drive/folders/11hXFPyB-A2UnbpPp4E5I-4-eEvIcQdiS?usp=sharing]
 
 ## Ringkasan
 Sistem simulasi terdistribusi dengan:
