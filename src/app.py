@@ -17,7 +17,7 @@ node = NodeServer()
 # ===== Startup Event =====
 @app.on_event("startup")
 async def startup_event():
-    # Jalankan NodeServer di background
+    await node.init_redis()
     asyncio.create_task(node.start())
     print(f"[{node.node_id}] NodeServer starting in background...")
 
