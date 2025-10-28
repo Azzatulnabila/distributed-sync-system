@@ -1,22 +1,21 @@
 import requests
 import time
 
-# Lock Manager
-print("Node1 acquire lock")
-r1 = requests.post('http://node1:5000/lock/acquire', json={'resource':'r1','mode':'exclusive'})
-print(r1.text)
+# Node1 acquire lock
+r = requests.post("http://node1:5000/lock/acquire", json={"resource":"r1","mode":"exclusive"})
+print("Node1 acquire lock", r.text)
 
-print("Node2 try acquire lock (waiting)")
-r2 = requests.post('http://node2:5000/lock/acquire', json={'resource':'r1','mode':'exclusive'})
-print(r2.text)
+# Node2 try acquire lock
+r = requests.post("http://node2:5000/lock/acquire", json={"resource":"r1","mode":"exclusive"})
+print("Node2 try acquire lock (waiting)", r.text)
 
-print("Node1 release lock")
-r3 = requests.post('http://node1:5000/lock/release', json={'resource':'r1'})
-print(r3.text)
+# Node1 release lock
+r = requests.post("http://node1:5000/lock/release", json={"resource":"r1"})
+print("Node1 release lock", r.text)
 
-print("Node2 acquire lock again")
-r4 = requests.post('http://node2:5000/lock/acquire', json={'resource':'r1','mode':'exclusive'})
-print(r4.text)
+# Node2 acquire lock again
+r = requests.post("http://node2:5000/lock/acquire", json={"resource":"r1","mode":"exclusive"})
+print("Node2 acquire lock again", r.text)
 
 # Queue
 print("Node2 produce message")
