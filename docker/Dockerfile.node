@@ -5,7 +5,6 @@ WORKDIR /app
 # Copy source code dan requirements
 COPY ./src /app/src
 COPY requirements.txt /app/requirements.txt
-COPY demo.py /app/demo.py
 
 # Set PYTHONPATH agar import src bisa
 ENV PYTHONPATH=/app
@@ -14,7 +13,7 @@ ENV PYTHONPATH=/app
 RUN apt-get update && apt-get install -y gcc libssl-dev \
     && pip install --upgrade pip \
     && pip install -r /app/requirements.txt \
-    && pip install fastapi uvicorn
+    && pip install fastapi uvicorn aiohttp aioredis requests
 
 # Expose port default node
 EXPOSE 5000
