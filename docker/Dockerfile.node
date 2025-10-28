@@ -4,6 +4,7 @@ WORKDIR /app
 
 # Copy source code dan requirements
 COPY ./src /app/src
+COPY demo.py /app/demo.py
 COPY requirements.txt /app/requirements.txt
 
 # Set environment variable untuk import src
@@ -14,11 +15,15 @@ RUN apt-get update && apt-get install -y gcc libssl-dev \
     && pip install --upgrade pip \
     && pip install -r /app/requirements.txt
 
+# Install requests
+RUN pip install --no-cache-dir requests
+
 # Expose port default node
 EXPOSE 5000
 
 # Default command → jalankan src/app.py supaya node tetap Up
 CMD ["python", "-m", "src.app"]
 
-# Install requests
-RUN pip install --no-cache-dir requests
+
+
+
