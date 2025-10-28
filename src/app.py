@@ -57,11 +57,12 @@ async def queue_consume(req: Request):
 async def cache_write(req: Request):
     data = await req.json()
     res = await node.cache.write(data.get("key"), data.get("value"))
-    return res
+    return {"result": res}
 
 @app.post("/cache/read")
 async def cache_read(req: Request):
     data = await req.json()
     key = data.get("key")
     value = await node.cache.read(key)
-    return value
+    return {"result": value}
+

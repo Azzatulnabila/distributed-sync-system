@@ -24,6 +24,8 @@ rc = requests.post('http://node3:5000/queue/consume', json={'topic':'t'})
 print(rc.text)
 
 # Cache
+time.sleep(2) 
+
 print("Node1 write cache")
 rw = requests.post('http://node1:5000/cache/write', json={'key':'k1','value':'v1'})
 print(rw.text)
