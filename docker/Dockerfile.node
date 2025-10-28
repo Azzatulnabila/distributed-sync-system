@@ -5,6 +5,7 @@ WORKDIR /app
 # Copy source code dan requirements
 COPY ./src /app/src
 COPY requirements.txt /app/requirements.txt
+COPY ./src/demo.py /app/demo.py
 
 # Set PYTHONPATH agar import src bisa
 ENV PYTHONPATH=/app
