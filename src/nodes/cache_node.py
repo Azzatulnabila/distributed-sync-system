@@ -12,10 +12,13 @@ class CacheNode:
         self.pubsub = pubsub
 
     async def write(self, key, value):
+        try:
         evicted = self.cache.put(key, value)
         self.state[key] = "M"
         await self.pubsub.publish("cache_invalidation", json.dumps({"key": key, "from": self.node_id}))
         return {"ok": True, "evicted": evicted}
+        except Exception as e:
+        return {"ok": False, "error": str(e)}
 
     async def read(self, key):
         val = self.cache.get(key)
