@@ -1,10 +1,11 @@
-# docker/docker-compose.yml
 version: "3.8"
 services:
   redis:
     image: redis:6-alpine
     ports:
       - "6379:6379"
+    networks:
+      - ds-net
 
   node1:
     build:
@@ -17,6 +18,8 @@ services:
       - REDIS_HOST=redis
     depends_on:
       - redis
+    networks:
+      - ds-net
 
   node2:
     build:
@@ -29,6 +32,8 @@ services:
       - REDIS_HOST=redis
     depends_on:
       - redis
+    networks:
+      - ds-net
 
   node3:
     build:
@@ -41,3 +46,9 @@ services:
       - REDIS_HOST=redis
     depends_on:
       - redis
+    networks:
+      - ds-net
+
+networks:
+  ds-net:
+    driver: bridge
