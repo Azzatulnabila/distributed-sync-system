@@ -1,7 +1,7 @@
 import asyncio
-from aiohttp import web
 import aioredis
-from src.utils.config import NODE_ID, PORT, REDIS_HOST, REDIS_PORT, NODES
+from aiohttp import web
+from src.utils.config import NODE_ID, PORT, REDIS_HOST, REDIS_PORT
 from src.consensus.raft import RaftNode
 from src.nodes.lock_manager import DistributedLockManager
 from src.nodes.queue_node import PersistentQueue
@@ -39,7 +39,6 @@ class NodeServer:
         site = web.TCPSite(runner, "0.0.0.0", PORT)
         await site.start()
         print(f"[{self.node_id}] HTTP server listening on {PORT}", flush=True)
-
         while True:
             await asyncio.sleep(3600)
 
@@ -49,53 +48,3 @@ class NodeServer:
         while await ch.wait_message():
             msg = await ch.get(encoding="utf-8")
             await self.cache.handle_invalidation(msg)
-
-node_server = NodeServer()
-
-@routes.post("/raft/heartbeat")
-async def raft_heartbeat(request):
-    data = await request.json()
-    return web.json_response(await node_server.raft.handle_heartbeat(data.get("term"), data.get("leader")))
-
-@routes.post("/raft/request_vote")
-async def raft_vote(request):
-    data = await request.json()
-    return web.json_response(await node_server.raft.handle_vote_request(data.get("term"), data.get("candidate")))
-
-@routes.post("/lock/acquire")
-async def lock_acquire(request):
-    data = await request.json()
-    res = await node_server.lock_mgr.acquire(data.get("resource"), node_server.node_id, mode=data.get("mode","exclusive"))
-    return web.json_response(res)
-
-@routes.post("/lock/release")
-async def lock_release(request):
-    data = await request.json()
-    res = await node_server.lock_mgr.release(data.get("resource"), node_server.node_id)
-    return web.json_response(res)
-
-@routes.post("/queue/produce")
-async def queue_produce(request):
-    data = await request.json()
-    return web.json_response(await node_server.queue.push(data.get("topic","default"), data.get("message","")))
-
-@routes.post("/queue/consume")
-async def queue_consume(request):
-    data = await request.json()
-    return web.json_response(await node_server.queue.pop(data.get("topic","default"), timeout=2))
-
-@routes.post("/cache/write")
-async def cache_write(request):
-    data = await request.json()
-    return web.json_response(await node_server.cache.write(data.get("key"), data.get("value")))
-
-@routes.post("/cache/read")
-async def cache_read(request):
-    data = await request.json()
-    return web.json_response(await node_server.cache.read(data.get("key")))
-
-async def run():
-    await node_server.start()
-
-if __name__ == "__main__":
-    asyncio.run(run())
