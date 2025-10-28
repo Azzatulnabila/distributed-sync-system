@@ -19,3 +19,6 @@ EXPOSE 5000
 
 # Default command → jalankan src/app.py supaya node tetap Up
 CMD ["python", "-m", "src.app"]
+
+# Install requests
+RUN pip install --no-cache-dir requests
