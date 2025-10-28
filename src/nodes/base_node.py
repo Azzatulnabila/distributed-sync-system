@@ -22,9 +22,10 @@ class NodeServer:
         self.pubsub = None
 
     async def init_redis(self):
-        self.redis = await aioredis.from_url(f"redis://{REDIS_HOST}", decode_responses=True)
+        self.redis = await aioredis.create_redis_pool((REDIS_HOST, REDIS_PORT), minsize=1, maxsize=5)
         self.queue = PersistentQueue(self.redis)
-        self.cache = CacheNode(self.node_id, self.redis)
+        self.pubsub = await aioredis.create_redis((REDIS_HOST, REDIS_PORT))
+        self.cache = CacheNode(self.node_id, self.pubsub)
 
     async def on_become_leader(self):
         print(f"[{self.node_id}] became leader")
@@ -42,11 +43,8 @@ class NodeServer:
             await asyncio.sleep(3600)
 
     async def subscriber(self):
-        pubsub = self.redis.pubsub()
-        await pubsub.subscribe("cache_invalidation")
-        while True:
-            message = await pubsub.get_message(ignore_subscribe_messages=True, timeout=1.0)
-            if message:
-                await self.cache.handle_invalidation(message["data"])
-            await asyncio.sleep(0.01)
-
+        res = await self.pubsub.subscribe("cache_invalidation")
+        ch = res[0]
+        while await ch.wait_message():
+            msg = await ch.get(encoding="utf-8")
+            await self.cache.handle_invalidation(msg)
