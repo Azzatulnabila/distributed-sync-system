@@ -52,15 +52,16 @@ async def queue_consume(req: Request):
     return {"result": res}
 
 # ===== Cache Routes =====
+@app.post("/cache/write")
+async def cache_write(req: Request):
+    data = await req.json()
+    res = await node.cache.write(data.get("key"), data.get("value"))
+    return {"result": res}
+
 @app.post("/cache/read")
 async def cache_read(req: Request):
     data = await req.json()
     key = data.get("key")
-    value = await node.cache.read(key)
-    return {"value": value}
-
-@app.get("/cache/read")
-async def cache_read(key: str):
     value = await node.cache.read(key)
     return {"value": value}
 

@@ -29,5 +29,5 @@ rw = requests.post('http://node1:5000/cache/write', json={'key':'k1','value':'v1
 print(rw.text)
 
 print("Node3 read cache")
-rread = requests.get('http://node3:5000/cache/read', params={'key':'k1'})
+rread = requests.post('http://node3:5000/cache/read', json={'key':'k1'})
 print(rread.text)
