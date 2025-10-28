@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy source code dan requirements
 COPY ./src /app/src
-COPY demo.py /app/demo.py
+COPY ./src/demo.py /app/demo.py
 COPY requirements.txt /app/requirements.txt
 
 # Set environment variable untuk import src
