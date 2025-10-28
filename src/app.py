@@ -18,8 +18,9 @@ node = NodeServer()
 @app.on_event("startup")
 async def startup_event():
     await node.init_redis()
-    asyncio.create_task(node.start())
-    print(f"[{node.node_id}] NodeServer starting in background...")
+    asyncio.create_task(node.raft.start())
+    asyncio.create_task(node.subscriber())
+    print(f"[{node.node_id}] NodeServer ready")
 
 # ===== Lock Routes =====
 @app.post("/lock/acquire")
@@ -56,13 +57,11 @@ async def queue_consume(req: Request):
 async def cache_write(req: Request):
     data = await req.json()
     res = await node.cache.write(data.get("key"), data.get("value"))
-    return {"result": res}
+    return res
 
 @app.post("/cache/read")
 async def cache_read(req: Request):
     data = await req.json()
     key = data.get("key")
     value = await node.cache.read(key)
-    return {"value": value}
-
-
+    return value
